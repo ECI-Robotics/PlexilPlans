@@ -51,7 +51,7 @@ CountIteration:
 
                         StepOne:{
                             pprint ("Driving forward for 5 seconds.");
-                            TurnFrontWheels(0);
+                            MoveForward(20);
                             WaitABit:{                    
                                 //Wait (delay*4),tolerance;
                             }                                    

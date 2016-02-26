@@ -576,10 +576,10 @@
                                                                      <NodeBody>
                                                                         <Command>
                                                                            <Name>
-                                                                              <StringValue>TurnFrontWheels</StringValue>
+                                                                              <StringValue>MoveForward</StringValue>
                                                                            </Name>
-                                                                           <Arguments LineNo="55" ColNo="44">
-                                                                              <IntegerValue>0</IntegerValue>
+                                                                           <Arguments LineNo="55" ColNo="40">
+                                                                              <IntegerValue>20</IntegerValue>
                                                                            </Arguments>
                                                                         </Command>
                                                                      </NodeBody>
