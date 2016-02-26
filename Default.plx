@@ -31,46 +31,76 @@
          </Parameter>
       </CommandDeclaration>
    </GlobalDeclarations>
-   <Node NodeType="NodeList" epx="Sequence" LineNo="11" ColNo="8">
+   <Node NodeType="NodeList" epx="Sequence" LineNo="9" ColNo="4">
       <NodeId>CommandsTest</NodeId>
       <InvariantCondition>
          <NOT>
-            <AND>
-               <EQInternal>
-                  <NodeOutcomeVariable>
-                     <NodeRef dir="child">Concurrence__0</NodeRef>
-                  </NodeOutcomeVariable>
-                  <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
-               </EQInternal>
-               <EQInternal>
-                  <NodeStateVariable>
-                     <NodeRef dir="child">Concurrence__0</NodeRef>
-                  </NodeStateVariable>
-                  <NodeStateValue>FINISHED</NodeStateValue>
-               </EQInternal>
-            </AND>
+            <OR>
+               <AND>
+                  <EQInternal>
+                     <NodeOutcomeVariable>
+                        <NodeRef dir="child">BLINK</NodeRef>
+                     </NodeOutcomeVariable>
+                     <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
+                  </EQInternal>
+                  <EQInternal>
+                     <NodeStateVariable>
+                        <NodeRef dir="child">BLINK</NodeRef>
+                     </NodeStateVariable>
+                     <NodeStateValue>FINISHED</NodeStateValue>
+                  </EQInternal>
+               </AND>
+               <AND>
+                  <EQInternal>
+                     <NodeOutcomeVariable>
+                        <NodeRef dir="child">BLINK2</NodeRef>
+                     </NodeOutcomeVariable>
+                     <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
+                  </EQInternal>
+                  <EQInternal>
+                     <NodeStateVariable>
+                        <NodeRef dir="child">BLINK2</NodeRef>
+                     </NodeStateVariable>
+                     <NodeStateValue>FINISHED</NodeStateValue>
+                  </EQInternal>
+               </AND>
+            </OR>
          </NOT>
       </InvariantCondition>
       <NodeBody>
          <NodeList>
-            <Node NodeType="NodeList" epx="Concurrence" LineNo="9" ColNo="4">
-               <NodeId>Concurrence__0</NodeId>
+            <Node NodeType="Command" LineNo="11" ColNo="12">
+               <NodeId>BLINK</NodeId>
                <NodeBody>
-                  <NodeList>
-                     <Node NodeType="Command" LineNo="11" ColNo="12">
-                        <NodeId>BLINK</NodeId>
-                        <NodeBody>
-                           <Command>
-                              <Name>
-                                 <StringValue>TurnFrontWheels</StringValue>
-                              </Name>
-                              <Arguments LineNo="12" ColNo="28">
-                                 <IntegerValue>30</IntegerValue>
-                              </Arguments>
-                           </Command>
-                        </NodeBody>
-                     </Node>
-                  </NodeList>
+                  <Command>
+                     <Name>
+                        <StringValue>TurnFrontWheels</StringValue>
+                     </Name>
+                     <Arguments LineNo="12" ColNo="28">
+                        <IntegerValue>30</IntegerValue>
+                     </Arguments>
+                  </Command>
+               </NodeBody>
+            </Node>
+            <Node NodeType="Command" LineNo="15" ColNo="12">
+               <NodeId>BLINK2</NodeId>
+               <StartCondition>
+                  <EQInternal>
+                     <NodeStateVariable>
+                        <NodeRef dir="sibling">BLINK</NodeRef>
+                     </NodeStateVariable>
+                     <NodeStateValue>FINISHED</NodeStateValue>
+                  </EQInternal>
+               </StartCondition>
+               <NodeBody>
+                  <Command>
+                     <Name>
+                        <StringValue>TurnRearWheels</StringValue>
+                     </Name>
+                     <Arguments LineNo="16" ColNo="27">
+                        <IntegerValue>30</IntegerValue>
+                     </Arguments>
+                  </Command>
                </NodeBody>
             </Node>
          </NodeList>

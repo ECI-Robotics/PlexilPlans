@@ -5,11 +5,16 @@ Command MoveForward(Integer);
 Command MoveBackward(Integer);
 
 CommandsTest:{
-    Concurrence{
+    Sequence{
 
         BLINK:{
             TurnFrontWheels(30);
         }
+        
+        BLINK2:{
+            TurnRearWheels(30);
+        }
+
 
     }
 }
