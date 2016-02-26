@@ -5,14 +5,25 @@ Command MoveForward(Integer);
 Command MoveBackward(Integer);
 
 CommandsTest:{
+
+    Duration delay = Duration ("PT0.5S");
+    Duration tolerance = Duration ("PT0.1S");
+
     Sequence{
 
         BLINK:{
             TurnFrontWheels(30);
+            WaitABit:{                    
+				Wait (delay*4),tolerance;
+			}                                    
         }
-        
+
         BLINK2:{
             TurnRearWheels(30);
+            WaitABit:{                    
+				Wait (delay*4),tolerance;
+			}                                    
+            
         }
 
 
