@@ -1,0 +1,37 @@
+Date Lookup time;
+Command pprint (...);
+
+
+
+
+CountIteration:
+{
+    
+    Boolean continue=true;
+    Duration delay = Duration ("PT0.5S");
+    Duration tolerance = Duration ("PT0.1S");
+    Integer stepsCount=0;
+
+    PeriodicIteration:
+    {            
+                    
+        Repeat continue;        
+        
+        stepsCount=stepsCount+1;
+                    
+        pprint ("steps Performed: ", stepsCount);
+        Sequence{
+            Delay:{
+                Wait (delay*2),tolerance;
+            }
+            ConditionallyEndIteration:
+            {
+                Skip stepsCount<20;
+                continue = false;
+                pprint ("Ending periodic iteration");
+            }
+
+        }
+
+    }
+}
