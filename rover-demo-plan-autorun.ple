@@ -1,0 +1,89 @@
+Date Lookup time;
+Command pprint (...);
+Integer Lookup StartRequested;
+Integer Lookup AbortRequested;
+
+Command TurnFrontWheels(Integer);
+Command TurnRearWheels(Integer); 
+Command MoveForward(Integer); 
+Command MoveBackward(Integer); 
+Command Stop();
+
+CountIteration:
+{
+    
+    Integer stepsCount=0;
+    Boolean continue = true;
+    Boolean tickCont = true;
+    Boolean abortedPlan=false;
+    Boolean succeedPlan=false;
+    Duration delay = Duration ("PT0.5S");
+    Duration tolerance = Duration ("PT0.1S");
+
+    End abortedPlan || succeedPlan ;
+
+
+    Concurrence{
+        AbortedPlanHandler:{
+            Start Lookup(AbortRequested)==1;
+            pprint ("Plan abortion requested.");
+            Stop();
+            abortedPlan=true;
+        }
+
+        PlanSuccessHandler:{
+            Start MainPlan.state==FINISHED && MainPlan.outcome==SUCCESS;
+            Stop();
+            pprint ("Plan success!.");
+            succeedPlan=true;
+        }
+
+        MainPlan:
+        {
+            Concurrence{
+                obstacleCheck:
+                {            
+                    Start planSequence.state==FINISHED;                    
+                    pprint ("Plan executed succesfully.");
+                }
+
+                planSequence:
+                {            
+
+                    Sequence{
+
+                        StepOne:{
+                            pprint ("Driving forward for 5 seconds.");
+                            MoveForward(20);
+                            WaitABit:{                    
+                                Wait (delay*10),tolerance;
+                            }                                    
+                        }
+                        StepTwo:{
+                            pprint ("Turning front wheels 30 degrees and continue for 2 seconds.");
+                            TurnFrontWheels(30);
+                            WaitABit:{                    
+                                Wait (delay*4),tolerance;
+                            }                                    
+                        }
+                        StepThree:{
+                            pprint ("Return front wheels to 0 degrees, and keep driving for 3 seconds.");
+                            WaitABit:{                    
+                                Wait (delay*6),tolerance;
+                            }                                    
+                        }
+                        StepFour:{
+                            pprint ("Stop.");
+                            Stop();
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+
+
+    }
+}
