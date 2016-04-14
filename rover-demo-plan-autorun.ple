@@ -69,7 +69,7 @@ CountIteration:
                         StepThree:{
                             pprint ("Return front wheels to 0 degrees, and keep driving for 3 seconds.");
                             WaitABit:{                    
-                                //Wait (delay*6),tolerance;
+                                Wait (delay*6),tolerance;
                             }                                    
                         }
                         StepFour:{
