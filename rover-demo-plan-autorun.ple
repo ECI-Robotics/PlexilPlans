@@ -23,29 +23,7 @@ CountIteration:
     //End abortedPlan || succeedPlan ;
 
 
-    Concurrence{
-        //AbortedPlanHandler:{
-        //    Start Lookup(AbortRequested)==1;
-        //    pprint ("Plan abortion requested.");
-        //    Stop();
-        //    abortedPlan=true;
-        //}
 
-        //PlanSuccessHandler:{
-        //    Start MainPlan.state==FINISHED && MainPlan.outcome==SUCCESS;
-        //    Stop();
-        //    pprint ("Plan success!.");
-        //    succeedPlan=true;
-        //}
-
-        MainPlan:
-        {
-            Concurrence{
-                //obstacleCheck:
-                //{            
-                //    Start planSequence.state==FINISHED;                    
-                //    pprint ("Plan executed succesfully.");
-                //}
 
                 planSequence:
                 {            
@@ -80,10 +58,8 @@ CountIteration:
 
                     }
                 }
-            }
-        }
 
 
 
-    }
+    
 }
