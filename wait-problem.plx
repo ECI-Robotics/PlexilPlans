@@ -28,7 +28,7 @@
             <Name>delay</Name>
             <Type>Real</Type>
             <InitialValue>
-               <RealValue>0.5</RealValue>
+               <RealValue>1</RealValue>
             </InitialValue>
          </DeclareVariable>
          <DeclareVariable LineNo="12" ColNo="4">
@@ -238,10 +238,7 @@
                                                    </Tolerance>
                                                 </LookupOnChange>
                                                 <ADD>
-                                                   <MUL LineNo="26" ColNo="27">
-                                                      <RealVariable>delay</RealVariable>
-                                                      <IntegerValue>2</IntegerValue>
-                                                   </MUL>
+                                                   <RealVariable>delay</RealVariable>
                                                    <NodeTimepointValue>
                                                       <NodeId>Wait__3</NodeId>
                                                       <NodeStateValue>EXECUTING</NodeStateValue>
@@ -274,7 +271,7 @@
                                        </EQInternal>
                                        <LT>
                                           <IntegerVariable>stepsCount</IntegerVariable>
-                                          <IntegerValue>20</IntegerValue>
+                                          <IntegerValue>100</IntegerValue>
                                        </LT>
                                     </AND>
                                  </SkipCondition>

@@ -1,0 +1,39 @@
+Command PlantSeed;
+Command TurnFrontWheels(Integer);
+Command TurnRearWheels(Integer); 
+Command MoveForward(Integer); 
+Command MoveBackward(Integer); 
+
+CommandsTest:{
+    Concurrence{
+    
+        TFWR:{
+            StartCondition MB.state == FINISHED;
+            TurnFrontWheels(-30);
+        }
+        TFWL:{
+            StartCondition TFWR.state == FINISHED;
+            TurnFrontWheels(30);
+        }
+        TRWR:{
+            StartCondition TFWL.state == FINISHED;
+            TurnRearWheels(-30);
+        }
+        TRWL:{
+            StartCondition TRWR.state == FINISHED;
+            TurnRearWheels(30);
+        }
+        PS:{
+            StartCondition TRWL.state == FINISHED;
+            PlantSeed();
+        }
+        MF:{            
+            MoveForward(3);
+        }       
+        MB:{
+            StartCondition MF.state == FINISHED;
+            MoveBackward(3);
+        }
+
+    }
+}

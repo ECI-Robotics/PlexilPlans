@@ -1,0 +1,21 @@
+Command Stop(); 
+Command pprint(...);
+Command GetLatitude();
+
+EventsTest:{
+    Real lat;
+    Real long;
+
+    Concurrence{
+    
+        LATUPDATELISTENER:{	    
+            StartCondition Lookup(Latitude)>5 && Lookup(Longitude)>5;
+	    lat=Lookup(Latitude);
+	    long=Lookup(Longitude);
+	    pprint ("*************** GOT EVENT: LATITUDE UPDATE:",lat);
+	    Stop();
+        }        
+
+
+    }
+}

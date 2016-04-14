@@ -1,0 +1,52 @@
+Date Lookup time;
+Command pprint (...);
+Integer Lookup StartRequested;
+Integer Lookup AbortRequested;
+
+TimedIteration:
+{
+    Start Lookup(StartRequested)==1;
+
+    Date run_start_time;            
+    Duration elapsed_time = Duration ("PT0.0S");    
+    Duration run_length;
+    Duration tolerance = Duration ("PT2.0S");
+    Boolean continue = true;
+
+    Sequence{        
+        SetupTimes:
+        {
+            pprint ("Time setup");
+            run_start_time = TimedIteration.EXECUTING.START;                
+            run_length = Duration ("PT10.0S");
+        }
+
+
+        periodicIteration:
+        {
+            Date iteration_start_time;
+            Repeat continue;        
+            Start SetupTimes.state == FINISHED;
+
+            iteration_start_time = Lookup(time);
+
+            //tiempo transcurrido hasta el momento
+            elapsed_time = iteration_start_time - run_start_time;
+
+            pprint ("elapsed_time: ", elapsed_time);
+
+            WaitABit: Wait (2*tolerance);
+
+            ConditionallyEndIteration:
+            {
+                Skip elapsed_time <= run_length;
+
+                continue = false;
+                pprint ("Ending periodic iteration");
+            }
+        }
+
+
+
+    }
+}

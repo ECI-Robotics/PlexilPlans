@@ -1,0 +1,21 @@
+# Debug configuration file
+
+:Node:transition
+:Node:outcome
+:Node:clock
+:Node:failure
+
+#:InterfaceManager:registerChangeLookup
+#:InterfaceManager:unregisterChangeLookup
+#:StateCache:registerChangeLookup
+#:StateCache:unregisterChangeLookup
+
+# Uncomment this to get debuging messages from SampleAdapter
+#:SampleAdapter
+
+:ECIRobotAdapter
+
+:InterfaceManager:handleValueChange
+#:InterfaceManager:processQueue
+#:PlexilExec:notifyNodeConditionChanged
+#:PlexilExec:step

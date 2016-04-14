@@ -1,0 +1,32 @@
+Command PlantSeed;
+Command TurnFrontWheelsRight(Integer);
+Command TurnFrontWheelsLeft(Integer); 
+Command TurnRearWheelsRight(Integer); 
+Command TurnRearWheelsLeft(Integer); 
+Command MoveForward(Integer); 
+Command MoveBackward(Integer); 
+Command Stop(); 
+Command pprint(...);
+
+
+EventsTest:{
+    Concurrence{
+    
+	LATITUDE:{
+            StartCondition Lookup(Latitude) > 10.1;
+            pprint("Latitude > 10.1");
+	}
+
+        LONG:{
+            StartCondition Lookup(Longitude) > 10.1;
+            pprint("Longitude > 10.1");
+        }
+
+        WHEELSTUCKLISTENER:{
+            StartCondition Lookup(WheelStuck)==1;
+            pprint ("*************** GOT EVENT: WHEELSTUCK:");
+            Stop();
+        }        
+
+    }
+}

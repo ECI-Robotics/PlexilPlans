@@ -1,0 +1,65 @@
+Date Lookup time;
+Command pprint (...);
+Command Sleep(Integer);
+Command Stop();
+Integer Lookup StartRequested;
+Integer Lookup AbortRequested;
+
+
+CountIteration:
+{
+    
+    Integer stepsCount=0;
+    Boolean continue = true;
+    Boolean tickCont = true;
+    Boolean abortedPlan=false;
+    Duration delay = Duration ("PT0.5S");
+    Duration tolerance = Duration ("PT0.1S");
+
+
+    Start Lookup(StartRequested)==1;
+    End abortedPlan;
+
+
+    Concurrence{
+        AbortGeneratedShutdown:{
+            Start Lookup(AbortRequested)==1;
+            pprint ("Plan abortion requested.");
+            Stop();
+            abortedPlan=true;
+        }
+        obstacleCheck:
+        {            
+            Start periodicIteration.state==FINISHED;
+            //Repeat periodicIteration.state!=FINISHED;            
+            pprint ("Concurrently printing something");
+        }
+
+        periodicIteration:
+        {            
+            Repeat continue;        
+            
+            stepsCount=stepsCount+1;
+            
+            pprint ("steps Performed: ", stepsCount);
+
+            
+            
+            Sequence{
+                WaitABit:{                    
+                    Wait (delay*4),tolerance;
+                }                                    
+
+                ConditionallyEndIteration:
+                {
+                    Skip stepsCount<5;
+                    continue = false;
+                    //pprint ("Ending periodic iteration");
+                }
+            }
+        }
+
+
+
+    }
+}

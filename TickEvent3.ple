@@ -1,0 +1,72 @@
+Command PlantSeed;
+Command TurnFrontWheelsRight(Integer);
+Command TurnFrontWheelsLeft(Integer); 
+Command TurnRearWheelsRight(Integer); 
+Command TurnRearWheelsLeft(Integer); 
+Command MoveForward(Integer); 
+Command MoveBackward(Integer); 
+Command Stop(); 
+Command pprint(...);
+Command NativeSleep(Integer);
+
+Date Lookup time;
+Date Lookup start;
+Duration Lookup duration;
+
+Ex:{
+
+    Date current_time;
+    Date run_start_time;
+    Date second_start_time;
+    Duration period = Duration ("PT0.5S");
+    Duration tolerance = Duration ("PT1S");
+    Duration elapsed_time = Duration ("PT0.0S");
+    Duration run_length = Duration ("PT10.0S"); 
+    Duration wait_period = Duration ("PT10.0S"); 
+
+    Duration iterationInterval = Duration("PT10S");
+    
+    Boolean continue = true;
+
+    Integer loopMax=100;
+    Integer loopCount=0;
+    //date3 = date3 - Duration("PT1.5S");
+
+    Concurrence{
+        SetupTimes:
+        {
+            run_start_time = Ex.EXECUTING.START;
+            second_start_time = run_start_time + Duration("PT30S");
+            pprint ("run_start_time:",run_start_time);
+            pprint ("second_start_time:",second_start_time);
+        }
+        
+        Delay2:
+        {
+            Repeat true;
+            EndCondition Lookup(time, tolerance) >= Delay2.EXECUTING.START + iterationInterval;
+            loopCount=loopCount+1;
+            //current_time=Lookup(time, tolerance);
+            pprint ("start2", Lookup(time, tolerance));  
+            
+        }
+
+        //Delay2:
+        //{
+        //    Wait (wait_period);
+        //}
+
+        AfterDelay:
+        {
+            Start Delay2.state==FINISHED;
+            pprint ("after delay", Lookup(time, tolerance));   
+        }
+
+
+    }
+    
+}
+
+
+
+

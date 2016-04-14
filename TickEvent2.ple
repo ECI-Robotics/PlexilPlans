@@ -1,0 +1,47 @@
+Command PlantSeed;
+Command TurnFrontWheelsRight(Integer);
+Command TurnFrontWheelsLeft(Integer); 
+Command TurnRearWheelsRight(Integer); 
+Command TurnRearWheelsLeft(Integer); 
+Command MoveForward(Integer); 
+Command MoveBackward(Integer); 
+Command Stop(); 
+Command pprint(...);
+Command NativeSleep(Integer);
+Real Lookup time;
+
+EventsTest:{
+    
+
+    Concurrence{
+        Boolean continue=true;
+        Integer tick=0;
+        Integer vini=0;        
+
+        vini=Lookup(ClockTick);
+
+        TICK2:{
+            TickListener:{
+                Start LookupOnChange(ClockTick)>0;
+                Repeat Lookup(ClockTick) < 10;
+                tick=Lookup(ClockTick);
+                pprint ("NEW ",tick);                        
+                pprint ("Time: ",Lookup(time));                        
+            }
+
+            while(tick < 10){
+                tick=Lookup(ClockTick);
+                pprint ("Tick ",tick);                        
+            }
+            
+        }
+        TICK1:{
+            
+            pprint ("Done ");            
+        }
+
+    }
+
+
+
+}

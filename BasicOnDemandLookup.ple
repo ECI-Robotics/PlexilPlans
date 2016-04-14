@@ -1,0 +1,53 @@
+Real Lookup Latitude;
+
+Command pprint(...);
+
+CommandsTest:{
+    
+    Real pi;    
+    
+    sequence:{
+
+        init:{
+            pi=Lookup(Latitude);
+            pprint("===>Latitude intialized",pi);
+        }
+
+        concurrence:{
+            LatUpdateNotifier:{
+                StartCondition Lookup(Latitude)>2;
+                //RepeatCondition true;
+                //EndCondition EndNode.outcome == SUCCESS;
+                pi=Lookup(Latitude);
+                pprint("=====>Latitude changed to:",pi);
+            }
+
+            LatUpdateNotifier2:{
+                StartCondition Lookup(Latitude)>2;
+                //RepeatCondition true;
+                //EndCondition EndNode.outcome == SUCCESS;
+                pi=Lookup(Latitude);
+                pprint("*****>Latitude changed to:",pi);
+            }
+
+
+            EndNode:{
+                    StartCondition Lookup(Latitude)>4;                    
+                    pprint("Done");
+            }
+
+        }
+
+
+
+    }
+    
+    
+
+
+
+
+
+        
+    
+}

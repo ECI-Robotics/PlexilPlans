@@ -1,0 +1,51 @@
+Command PlantSeed;
+Command TurnFrontWheelsRight(Integer);
+Command TurnFrontWheelsLeft(Integer); 
+Command TurnRearWheelsRight(Integer); 
+Command TurnRearWheelsLeft(Integer); 
+Command MoveForward(Integer); 
+Command MoveBackward(Integer); 
+Command Stop(); 
+Command pprint(...);
+Command NativeSleep(Integer);
+
+Date Lookup time;
+Date Lookup start;
+Duration Lookup duration;
+
+Ex:{
+
+    Date current_time;
+    Duration tolerance = Duration ("PT1S");
+
+    Duration iterationInterval = Duration("PT1S");    
+
+    Integer loopMax=100;
+    Integer loopCount=0;
+
+    Concurrence{
+        
+        Delay2:
+        {
+            Repeat loopCount<loopMax;
+            EndCondition Lookup(time, tolerance) >= Delay2.EXECUTING.START + iterationInterval;
+            loopCount=loopCount+1;
+            
+            pprint ("start2");  
+            
+        }
+
+        AfterDelay:
+        {
+            Start Delay2.state==FINISHED;
+            pprint ("after delay", Lookup(time, tolerance));   
+        }
+
+
+    }
+    
+}
+
+
+
+

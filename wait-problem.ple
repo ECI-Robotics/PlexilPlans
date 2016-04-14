@@ -8,7 +8,7 @@ CountIteration:
 {
     
     Boolean continue=true;
-    Duration delay = Duration ("PT0.5S");
+    Duration delay = Duration ("PT1S");
     Duration tolerance = Duration ("PT0.1S");
     Integer stepsCount=0;
 
@@ -22,11 +22,11 @@ CountIteration:
         pprint ("steps Performed: ", stepsCount);
         Sequence{
             Delay:{
-                Wait (delay*2),tolerance;
+                Wait (delay), tolerance;
             }
             ConditionallyEndIteration:
             {
-                Skip stepsCount<20;
+                Skip stepsCount<100;
                 continue = false;
                 pprint ("Ending periodic iteration");
             }

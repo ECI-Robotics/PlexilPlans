@@ -1,0 +1,87 @@
+Real Lookup Latitude;
+Date Lookup time;
+
+Integer Lookup PositionChanged;
+
+//Set front wheels angle [-30..30]
+Command TurnFrontWheels(Integer);
+
+//Set rear wheels angle [-30..30]
+Command TurnRearWheels(Integer); 
+
+//Move forward with a given power level [0..100]
+Command MoveForward(Integer); 
+
+//Move backwards with a given power level [0..100]
+Command MoveBackward(Integer); 
+
+//Stop
+Command StopEngine();
+
+Command pprint(...);
+
+CommandsTest:{
+    
+    Real pi=0;
+    Real ct=0;    
+
+    Date startime;
+
+    Duration maxtime = Duration ("PT5.0S");
+    Duration tolerance = Duration ("PT0.01S");
+
+    Sequence{
+
+        Setup:{
+            startime=Lookup(time,tolerance);
+            pprint("PLAN SETUP AT",startime);
+
+        }
+
+
+
+        Concurrence{
+            XX:{
+                StartCondition (Lookup(PositionChanged)==1);
+                pi=Lookup(Latitude);
+                pprint("Position changed!");
+                pprint(">>>>>>>>>>>>>",pi);
+            }
+        
+
+            TIMED_EVENT:{
+                StartCondition Lookup(time,tolerance) > (startime+maxtime);
+                RepeatCondition Lookup(time,tolerance) > (startime+maxtime);
+                startime=Lookup(time,tolerance);           
+                pprint ("$$$$ TIMED EVENT");
+            }
+        
+
+            TF:{  
+                while (Lookup(PositionChanged)==1){
+                    pi=Lookup(Latitude);
+                    pprint(">>>>>>>>>>>>>",pi);
+                }              
+                //while (Lookup(time,tolerance) < (startime+maxtime)){
+                //    TurnFrontWheels(30);
+                //    pi=Lookup(Latitude);
+                //    pprint(">>>>>>>>>>>>>",pi);
+                //    }                
+            }
+            
+            WHEELSTUCKLISTENER:{
+                StartCondition Lookup(Latitude)>=10;
+                pprint ("*************** GOT EVENT: WHEELSTUCK:");
+                pi=Lookup(Latitude);
+                
+
+                StopEngine();
+            }
+            
+        }
+
+
+    }
+
+    
+}

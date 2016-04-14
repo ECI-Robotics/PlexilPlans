@@ -1,0 +1,21 @@
+Date Lookup time;
+Command pprint (...);
+
+
+
+
+CountIteration:
+{
+    
+    Boolean continue=true;
+    Duration delay = Duration ("PT2S");
+    Duration tolerance = Duration ("PT0.5S");
+    Integer stepsCount=0;
+
+    while(true){
+        WaitABit:{Wait delay,tolerance;}
+        pprint ("steps Performed ");
+    }
+
+    
+}

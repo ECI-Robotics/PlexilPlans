@@ -1,0 +1,55 @@
+Date Lookup time;
+
+Integer Lookup PositionChanged;
+
+//Set front wheels angle [-30..30]
+Command TurnFrontWheels(Integer);
+
+//Set rear wheels angle [-30..30]
+Command TurnRearWheels(Integer); 
+
+//Move forward with a given power level [0..100]
+Command MoveForward(Integer); 
+
+//Move backwards with a given power level [0..100]
+Command MoveBackward(Integer); 
+
+//Stop
+Command StopEngine();
+
+Command pprint(...);
+
+CommandsTest:{
+    
+    Real pi=0;
+    Real ct=0;    
+
+    Date startime;
+    Boolean oneMeter=false;
+
+    Duration maxtime = Duration ("PT5.0S");
+    Duration tolerance = Duration ("PT0.01S");
+
+    Sequence{
+
+        Setup:{
+            startime=Lookup(time,tolerance);
+            pprint("PLAN SETUP AT",startime);
+
+        }
+
+
+
+        Concurrence{
+            XX:{
+                StartCondition (Lookup(PositionChanged)==1);
+                pprint(">>>>>>>>>>>>>");
+            }
+        
+        }
+
+
+    }
+
+    
+}

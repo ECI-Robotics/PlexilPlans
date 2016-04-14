@@ -1,0 +1,37 @@
+Integer Lookup PositionChanged;
+Real Lookup Latitude;
+
+Command pprint(...);
+
+CommandsTest:{
+    
+    Real pi;    
+    
+    Concurrence{
+
+
+        
+            LatUpdateNotifier:{
+                StartCondition Lookup(Latitude)==1;
+                //RepeatCondition Lookup(PositionChanged)==1;
+                pi=Lookup(Latitude);
+                pprint("=====>Latitude changed",pi);
+            }
+            EndPC:{
+                StartCondition Lookup(PositionChanged)==1;
+                pprint(">>>>PositionChanged!");
+            }
+
+
+
+    }
+    
+    
+
+
+
+
+
+        
+    
+}
