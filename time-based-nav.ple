@@ -1,0 +1,40 @@
+Date Lookup time;
+Command pprint (...);
+
+
+
+
+CountIteration:
+{
+    
+    
+    Duration delay1 = Duration ("PT5S");
+    Duration delay2 = Duration ("PT3S");
+    Duration delay3 = Duration ("PT20S");
+
+    Duration tolerance = Duration ("PT0.1S");
+    
+    
+    Task:{
+
+        FirstStep:
+        {
+
+            pprint ("Start moving forward for 5 seconds.");
+            Delay1:{
+                Wait (delay1), tolerance;
+            }            
+            pprint ("Done waiting 1.");
+
+            pprint ("Start moving forward for 10 seconds.");
+            Delay2:{
+                Wait (delay2), tolerance;
+            }            
+            pprint ("Done waiting 2.");
+
+        }
+
+    }
+
+
+}
