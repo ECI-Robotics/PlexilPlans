@@ -54,22 +54,22 @@ CountIteration:
 
                         StepOne:{
                             pprint ("Driving forward for 5 seconds.");
-                            MoveForward(20);
+                            //MoveForward(20);
                             WaitABit:{                    
                                 Wait (delay*10),tolerance;
                             }                                    
                         }
                         StepTwo:{
                             pprint ("Turning front wheels 30 degrees and continue for 2 seconds.");
-                            TurnFrontWheels(30);
+                            //TurnFrontWheels(30);
                             WaitABit:{                    
-                                Wait (delay*4),tolerance;
+                                //Wait (delay*4),tolerance;
                             }                                    
                         }
                         StepThree:{
                             pprint ("Return front wheels to 0 degrees, and keep driving for 3 seconds.");
                             WaitABit:{                    
-                                Wait (delay*6),tolerance;
+                                //Wait (delay*6),tolerance;
                             }                                    
                         }
                         StepFour:{
