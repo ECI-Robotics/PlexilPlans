@@ -1,7 +1,7 @@
 Date Lookup time;
 Command pprint (...);
-Integer Lookup StartRequested;
-Integer Lookup AbortRequested;
+//Integer Lookup StartRequested;
+//Integer Lookup AbortRequested;
 
 Command TurnFrontWheels(Integer);
 Command TurnRearWheels(Integer); 
@@ -24,12 +24,12 @@ CountIteration:
 
 
     Concurrence{
-        AbortedPlanHandler:{
-            Start Lookup(AbortRequested)==1;
-            pprint ("Plan abortion requested.");
-            Stop();
-            abortedPlan=true;
-        }
+        //AbortedPlanHandler:{
+        //    Start Lookup(AbortRequested)==1;
+        //    pprint ("Plan abortion requested.");
+        //    Stop();
+        //    abortedPlan=true;
+        //}
 
         PlanSuccessHandler:{
             Start MainPlan.state==FINISHED && MainPlan.outcome==SUCCESS;
