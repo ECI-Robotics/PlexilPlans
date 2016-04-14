@@ -17,7 +17,7 @@ CountIteration:
     Boolean tickCont = true;
     Boolean abortedPlan=false;
     Boolean succeedPlan=false;
-    Duration delay = Duration ("PT0.5S");
+    Duration delay = Duration ("PT1S");
     Duration tolerance = Duration ("PT0.1S");
 
     //End abortedPlan || succeedPlan ;
@@ -55,8 +55,8 @@ CountIteration:
                         StepOne:{
                             pprint ("Driving forward for 5 seconds.");
                             //MoveForward(20);
-                            WaitABit:{                    
-                                //Wait (delay*10),tolerance;
+                            Delay:{                    
+                                Wait (delay),tolerance;
                             }                                    
                         }
                         StepTwo:{

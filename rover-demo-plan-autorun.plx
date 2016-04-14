@@ -83,7 +83,7 @@
             <Name>delay</Name>
             <Type>Real</Type>
             <InitialValue>
-               <RealValue>0.5</RealValue>
+               <RealValue>1</RealValue>
             </InitialValue>
          </DeclareVariable>
          <DeclareVariable LineNo="21" ColNo="4">
@@ -254,13 +254,13 @@
                                                                      <AND>
                                                                         <EQInternal>
                                                                            <NodeOutcomeVariable>
-                                                                              <NodeRef dir="child">WaitABit</NodeRef>
+                                                                              <NodeRef dir="child">Delay</NodeRef>
                                                                            </NodeOutcomeVariable>
                                                                            <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
                                                                         </EQInternal>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="child">WaitABit</NodeRef>
+                                                                              <NodeRef dir="child">Delay</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
@@ -283,8 +283,8 @@
                                                                         </Command>
                                                                      </NodeBody>
                                                                   </Node>
-                                                                  <Node NodeType="Empty" LineNo="1" ColNo="0">
-                                                                     <NodeId>WaitABit</NodeId>
+                                                                  <Node NodeType="NodeList" epx="Sequence" LineNo="60" ColNo="32">
+                                                                     <NodeId>Delay</NodeId>
                                                                      <StartCondition>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
@@ -293,6 +293,51 @@
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
                                                                      </StartCondition>
+                                                                     <InvariantCondition>
+                                                                        <NOT>
+                                                                           <AND>
+                                                                              <EQInternal>
+                                                                                 <NodeOutcomeVariable>
+                                                                                    <NodeRef dir="child">Wait__4</NodeRef>
+                                                                                 </NodeOutcomeVariable>
+                                                                                 <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
+                                                                              </EQInternal>
+                                                                              <EQInternal>
+                                                                                 <NodeStateVariable>
+                                                                                    <NodeRef dir="child">Wait__4</NodeRef>
+                                                                                 </NodeStateVariable>
+                                                                                 <NodeStateValue>FINISHED</NodeStateValue>
+                                                                              </EQInternal>
+                                                                           </AND>
+                                                                        </NOT>
+                                                                     </InvariantCondition>
+                                                                     <NodeBody>
+                                                                        <NodeList>
+                                                                           <Node NodeType="Empty" epx="Wait" LineNo="60" ColNo="32">
+                                                                              <NodeId>Wait__4</NodeId>
+                                                                              <EndCondition>
+                                                                                 <GE>
+                                                                                    <LookupOnChange>
+                                                                                       <Name>
+                                                                                          <StringValue>time</StringValue>
+                                                                                       </Name>
+                                                                                       <Tolerance>
+                                                                                          <RealVariable>tolerance</RealVariable>
+                                                                                       </Tolerance>
+                                                                                    </LookupOnChange>
+                                                                                    <ADD>
+                                                                                       <RealVariable>delay</RealVariable>
+                                                                                       <NodeTimepointValue>
+                                                                                          <NodeId>Wait__4</NodeId>
+                                                                                          <NodeStateValue>EXECUTING</NodeStateValue>
+                                                                                          <Timepoint>START</Timepoint>
+                                                                                       </NodeTimepointValue>
+                                                                                    </ADD>
+                                                                                 </GE>
+                                                                              </EndCondition>
+                                                                           </Node>
+                                                                        </NodeList>
+                                                                     </NodeBody>
                                                                   </Node>
                                                                </NodeList>
                                                             </NodeBody>
@@ -313,13 +358,13 @@
                                                                      <AND>
                                                                         <EQInternal>
                                                                            <NodeOutcomeVariable>
-                                                                              <NodeRef dir="child">COMMAND__4</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__5</NodeRef>
                                                                            </NodeOutcomeVariable>
                                                                            <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
                                                                         </EQInternal>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="child">COMMAND__4</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__5</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
@@ -344,7 +389,7 @@
                                                             <NodeBody>
                                                                <NodeList>
                                                                   <Node NodeType="Command" LineNo="63" ColNo="28">
-                                                                     <NodeId>COMMAND__4</NodeId>
+                                                                     <NodeId>COMMAND__5</NodeId>
                                                                      <NodeBody>
                                                                         <Command>
                                                                            <Name>
@@ -361,7 +406,7 @@
                                                                      <StartCondition>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="sibling">COMMAND__4</NodeRef>
+                                                                              <NodeRef dir="sibling">COMMAND__5</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
@@ -386,13 +431,13 @@
                                                                      <AND>
                                                                         <EQInternal>
                                                                            <NodeOutcomeVariable>
-                                                                              <NodeRef dir="child">COMMAND__5</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__6</NodeRef>
                                                                            </NodeOutcomeVariable>
                                                                            <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
                                                                         </EQInternal>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="child">COMMAND__5</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__6</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
@@ -417,7 +462,7 @@
                                                             <NodeBody>
                                                                <NodeList>
                                                                   <Node NodeType="Command" LineNo="70" ColNo="28">
-                                                                     <NodeId>COMMAND__5</NodeId>
+                                                                     <NodeId>COMMAND__6</NodeId>
                                                                      <NodeBody>
                                                                         <Command>
                                                                            <Name>
@@ -434,7 +479,7 @@
                                                                      <StartCondition>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="sibling">COMMAND__5</NodeRef>
+                                                                              <NodeRef dir="sibling">COMMAND__6</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
@@ -459,13 +504,13 @@
                                                                      <AND>
                                                                         <EQInternal>
                                                                            <NodeOutcomeVariable>
-                                                                              <NodeRef dir="child">COMMAND__6</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__7</NodeRef>
                                                                            </NodeOutcomeVariable>
                                                                            <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
                                                                         </EQInternal>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="child">COMMAND__6</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__7</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
@@ -473,13 +518,13 @@
                                                                      <AND>
                                                                         <EQInternal>
                                                                            <NodeOutcomeVariable>
-                                                                              <NodeRef dir="child">COMMAND__7</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__8</NodeRef>
                                                                            </NodeOutcomeVariable>
                                                                            <NodeOutcomeValue>FAILURE</NodeOutcomeValue>
                                                                         </EQInternal>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="child">COMMAND__7</NodeRef>
+                                                                              <NodeRef dir="child">COMMAND__8</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
@@ -490,7 +535,7 @@
                                                             <NodeBody>
                                                                <NodeList>
                                                                   <Node NodeType="Command" LineNo="76" ColNo="28">
-                                                                     <NodeId>COMMAND__6</NodeId>
+                                                                     <NodeId>COMMAND__7</NodeId>
                                                                      <NodeBody>
                                                                         <Command>
                                                                            <Name>
@@ -503,11 +548,11 @@
                                                                      </NodeBody>
                                                                   </Node>
                                                                   <Node NodeType="Command" LineNo="77" ColNo="28">
-                                                                     <NodeId>COMMAND__7</NodeId>
+                                                                     <NodeId>COMMAND__8</NodeId>
                                                                      <StartCondition>
                                                                         <EQInternal>
                                                                            <NodeStateVariable>
-                                                                              <NodeRef dir="sibling">COMMAND__6</NodeRef>
+                                                                              <NodeRef dir="sibling">COMMAND__7</NodeRef>
                                                                            </NodeStateVariable>
                                                                            <NodeStateValue>FINISHED</NodeStateValue>
                                                                         </EQInternal>
