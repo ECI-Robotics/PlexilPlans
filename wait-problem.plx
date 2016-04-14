@@ -28,7 +28,7 @@
             <Name>delay</Name>
             <Type>Real</Type>
             <InitialValue>
-               <RealValue>1</RealValue>
+               <RealValue>10</RealValue>
             </InitialValue>
          </DeclareVariable>
          <DeclareVariable LineNo="12" ColNo="4">

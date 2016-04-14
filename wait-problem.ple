@@ -8,7 +8,7 @@ CountIteration:
 {
     
     Boolean continue=true;
-    Duration delay = Duration ("PT1S");
+    Duration delay = Duration ("PT10S");
     Duration tolerance = Duration ("PT0.1S");
     Integer stepsCount=0;
 

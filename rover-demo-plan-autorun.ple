@@ -17,14 +17,13 @@ CountIteration:
 
 
 
-                planSequence:
+                PlanSequence:
                 {            
 
                     
 
                         StepOne:{
-                            pprint ("Driving forward for 5 seconds.");
-                            //MoveForward(20);
+                            pprint ("Driving forward for 5 seconds.");                            
                             Delay:{                    
                                 Wait (delay),tolerance;
                             }                                    
