@@ -56,7 +56,7 @@ CountIteration:
                             pprint ("Driving forward for 5 seconds.");
                             //MoveForward(20);
                             WaitABit:{                    
-                                Wait (delay*10),tolerance;
+                                //Wait (delay*10),tolerance;
                             }                                    
                         }
                         StepTwo:{
