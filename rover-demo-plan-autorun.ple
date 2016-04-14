@@ -63,7 +63,7 @@ CountIteration:
                             pprint ("Turning front wheels 30 degrees and continue for 2 seconds.");
                             //TurnFrontWheels(30);
                             WaitABit:{                    
-                                //Wait (delay*4),tolerance;
+                                Wait (delay*4),tolerance;
                             }                                    
                         }
                         StepThree:{
