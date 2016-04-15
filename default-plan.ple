@@ -1,0 +1,87 @@
+Date Lookup time;
+Command pprint (...);
+Integer Lookup StartRequested;
+Integer Lookup AbortRequested;
+
+Command TurnFrontWheels(Integer);
+Command TurnRearWheels(Integer); 
+Command MoveForward(Integer); 
+Command MoveBackward(Integer); 
+Command Stop();
+
+CountIteration:
+{
+    
+    Integer stepsCount=0;
+    Boolean continue = true;
+    Boolean tickCont = true;
+    Boolean abortedPlan=false;
+    Boolean succeedPlan=false;
+    Duration delay = Duration ("PT1S");
+    Duration tolerance = Duration ("PT0.1S");
+
+    Concurrence{
+        AbortedPlanHandler:{
+            Start Lookup(AbortRequested)==1;
+            pprint ("Plan abortion requested.");
+            Stop();
+            abortedPlan=true;
+        }
+
+        PlanSuccessHandler:{
+            Start MainPlan.state==FINISHED && MainPlan.outcome==SUCCESS;
+            Stop();
+            pprint ("Plan success!.");
+            succeedPlan=true;
+        }
+
+        MainPlan:
+        {
+            Concurrence{
+
+                planSequence:
+                {            
+
+                    Sequence{
+
+                        StepOne:{
+                            pprint ("Blinking for 20 seconds.");
+                            MoveForward(20);
+                            WaitABit:{                    
+                                Wait (delay*20),tolerance;
+                            }                                    
+                        }
+                        StepTwo:{
+                            pprint ("Stopping for 10 seconds.");
+                            TurnFrontWheels(30);
+                            WaitABit:{                    
+                                Wait (delay*10),tolerance;
+                            }                                    
+                        }
+                        StepThree:{
+                            pprint ("Blinking again for 30 seconds.");
+                            MoveForward(20);
+                            WaitABit:{                    
+                                Wait (delay*30),tolerance;
+                            }                                    
+                        }
+                        StepFour:{
+                            pprint ("Turning off for last time.");
+                            TurnFrontWheels(30);
+                        }
+
+                        LastStep:{
+                            pprint ("Stop.");
+                            Stop();
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+
+
+    }
+}
