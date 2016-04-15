@@ -46,28 +46,28 @@ CountIteration:
 
                         StepOne:{
                             pprint ("Blinking for 20 seconds.");
-                            MoveForward(20);
+                            TurnFrontWheels(30);                            
                             WaitABit:{                    
                                 Wait (delay*20),tolerance;
                             }                                    
                         }
                         StepTwo:{
                             pprint ("Stopping for 10 seconds.");
-                            TurnFrontWheels(30);
+                            MoveForward(20);
                             WaitABit:{                    
                                 Wait (delay*10),tolerance;
                             }                                    
                         }
                         StepThree:{
                             pprint ("Blinking again for 30 seconds.");
-                            MoveForward(20);
+                            TurnFrontWheels(30);                            
                             WaitABit:{                    
                                 Wait (delay*30),tolerance;
                             }                                    
                         }
                         StepFour:{
                             pprint ("Turning off for last time.");
-                            TurnFrontWheels(30);
+                            MoveForward(20);
                         }
 
                         LastStep:{
