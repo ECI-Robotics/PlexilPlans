@@ -1,0 +1,101 @@
+Date Lookup time;
+
+//Set front wheels angle [-30..30]
+Command TurnFrontWheels(Integer);
+
+//Set rear wheels angle [-30..30]
+Command TurnRearWheels(Integer); 
+
+//Move forward with a given power level [0..100]
+Command MoveForward(Integer); 
+
+//Move backwards with a given power level [0..100]
+Command MoveBackward(Integer); 
+
+//apply one drop
+Command OpenSprinkler();
+
+//Stop
+Command Stop();
+
+Command pprint(...);
+
+//*** Available Lookup Status Variables
+//Heading
+//StartRequested
+//AbortRequested
+//LeftSonarMeasuredDistance
+//RightSonarMeasuredDistance
+//CenterSonarMeasuredDistance
+
+
+Bootstrap:
+{ 
+    Duration delay1 = Duration ("PT2S"); 
+    Duration delay2 = Duration ("PT5S"); 
+    Duration tolerance = Duration ("PT0.1S");    
+    
+    Sequence{
+        SequentialTurning:{
+            Sequence{
+                FrontWheels:{
+                    TurnFrontWheels(30);
+                    Wait (delay1), tolerance;     
+                    TurnFrontWheels(0);
+                    Wait (delay1), tolerance;     
+                    TurnFrontWheels(-30);
+                    Wait (delay1), tolerance;     
+                    TurnFrontWheels(0);
+                    
+                }        
+        
+                RearWheels:{
+                    TurnRearWheels(30);
+                    Wait (delay1), tolerance;     
+                    TurnRearWheels(0);
+                    Wait (delay1), tolerance;     
+                    TurnRearWheels(-30);
+                    Wait (delay1), tolerance;     
+                    TurnRearWheels(0);
+                    
+                }        
+            }
+        }
+        
+        ParallelTurning:{
+            Concurrence{
+                FrontWheels:{
+                    TurnFrontWheels(30);
+                    Wait (delay1), tolerance;     
+                    TurnFrontWheels(0);
+                    Wait (delay1), tolerance;     
+                    TurnFrontWheels(-30);
+                    Wait (delay1), tolerance;     
+                    TurnFrontWheels(0);
+                }        
+        
+                RearWheels:{
+                    TurnRearWheels(30);
+                    Wait (delay1), tolerance;     
+                    TurnRearWheels(0);
+                    Wait (delay1), tolerance;     
+                    TurnRearWheels(-30);
+                    Wait (delay1), tolerance;     
+                    TurnRearWheels(0);
+                }        
+                
+            }
+        
+        }
+        
+        MotorTest:{
+            MoveForward(10);
+            Wait (delay2), tolerance;     
+            MoveBackward(10);
+            Wait (delay2), tolerance;     
+            Stop();
+        }
+
+    }
+    
+}
