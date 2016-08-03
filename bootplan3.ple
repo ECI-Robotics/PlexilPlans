@@ -1,0 +1,84 @@
+Date Lookup time;
+
+//Set front wheels angle [-30..30]
+Command TurnFrontWheels(Integer);
+
+//Set rear wheels angle [-30..30]
+Command TurnRearWheels(Integer); 
+
+//Move forward with a given power level [0..100]
+Command MoveForward(Integer); 
+
+//Move backwards with a given power level [0..100]
+Command MoveBackward(Integer); 
+
+//apply one drop
+Command OpenSprinkler();
+
+//Stop
+Command Stop();
+
+Command pprint(...);
+
+//*** Available Lookup Status Variables
+//Heading
+//StartRequested
+//AbortRequested
+//LeftSonarMeasuredDistance
+//RightSonarMeasuredDistance
+//CenterSonarMeasuredDistance
+
+
+Bootstrap:
+{ 
+    Duration smallDelay = Duration ("PT1S"); 
+    Duration delay1 = Duration ("PT2S"); 
+    Duration delay2 = Duration ("PT5S");
+    Duration delay3 = Duration ("PT10S"); 
+    Duration tolerance = Duration ("PT0.1S");    
+    
+    Sequence{
+        
+        BackAndForth:{
+            MoveForward(10);
+            Wait (delay2), tolerance;     
+            Stop();
+            Wait (smallDelay), tolerance;
+        }
+        
+        LaneChange:{
+            TurnFrontWheels(15);
+            Wait (smallDelay), tolerance;
+            MoveForward(10);
+            Wait (delay2), tolerance;
+            Stop();
+            Wait (delay1), tolerance;
+            
+            
+            TurnFrontWheels(0);
+            Wait (smallDelay), tolerance;
+            MoveForward(10);
+            Wait (delay3), tolerance;
+            Stop();
+            Wait (delay1), tolerance;
+            
+            
+            TurnFrontWheels(-15);
+            Wait (smallDelay), tolerance;
+            MoveForward(10);
+            Wait (delay2), tolerance;
+            Stop();
+            Wait (delay1), tolerance;
+            
+            TurnFrontWheels(0);
+            Wait (smallDelay), tolerance;
+            MoveForward(10);
+            Wait (delay2), tolerance;     
+            Stop();
+            Wait (delay1), tolerance;
+        }
+
+
+    }
+    
+}
