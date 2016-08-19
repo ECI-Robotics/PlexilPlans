@@ -10,22 +10,36 @@ SyncDemo:{
     Duration tolerance = Duration ("PT0.1S");
 
     Integer direction=1;
+    Boolean collisionEvent=false;
+
 
     Concurrence{
 
-        DirectionUpdate:{
+        TimedEventGenerator:{
+            Repeat true;
             Wait (delay), tolerance;
+            collisionEvent=true;            
+        }
+
+        CollisionHandler:{
+            Start collisionEvent;
+            Repeat true;
+            collisionEvent=false;               
             direction=direction*-1;
         }
+
+
         OnNegative:{
-            Start direction==-1 && DirectionUpdate.state==FINISHED;
+            Start direction==-1 && collisionEvent;
             Skip OnPositive.state==FINISHED;
+            Repeat true;
 
             pprint("Negative!");
         }
         OnPositive:{
-            Start direction==1 && DirectionUpdate.state==FINISHED;
+            Start direction==1 && collisionEvent;
             Skip OnNegative.state==FINISHED;
+            Repeat true;
 
             pprint("Positive");
         }
