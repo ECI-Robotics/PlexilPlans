@@ -1,0 +1,39 @@
+Date Lookup time;
+
+
+Command pprint(...);
+
+
+SyncDemo:{
+    
+    Duration delay = Duration ("PT3S");
+    Duration tolerance = Duration ("PT0.1S");
+
+    Integer direction=1;
+
+    Concurrence{
+
+        DirectionUpdate:{
+            Wait (delay), tolerance;
+            direction=direction*-1;
+        }
+        OnNegative:{
+            Start direction==-1 && DirectionUpdate.state==FINISHED;
+            Skip OnPositive.state==FINISHED;
+
+            pprint("Negative!");
+        }
+        OnPositive:{
+            Start direction==1 && DirectionUpdate.state==FINISHED;
+            Skip OnNegative.state==FINISHED;
+
+            pprint("Positive");
+        }
+        
+
+
+    }
+
+
+
+}
