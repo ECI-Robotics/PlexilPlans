@@ -1,1 +1,95 @@
+Date Lookup time;
 
+//Set front wheels angle [-30..30]
+Command TurnFrontWheels(Integer);
+
+//Set rear wheels angle [-30..30]
+Command TurnRearWheels(Integer); 
+
+//Move forward with a given power level [0..100]
+Command MoveForward(Integer); 
+
+//Move backwards with a given power level [0..100]
+Command MoveBackward(Integer); 
+
+//apply one drop
+Command OpenSprinkler();
+ 
+//Stop
+Command Stop();
+
+Command pprint(...);
+
+//*** Available Lookup Status Variables
+//Heading
+//StartRequested
+//AbortRequested
+//LeftSonarMeasuredDistance
+//RightSonarMeasuredDistance
+//CenterSonarMeasuredDistance
+
+
+//EXAMPLE
+
+ObstacleDodgeAndPesticideDosage:
+{
+  Integer steps=0;
+
+  Concurrence{    
+
+    Duration dsdelay = Duration ("PT5S"); 
+    Duration delay1 = Duration ("PT3S"); 
+    Duration headFixDelay = Duration ("PT3S"); 
+    
+    Duration tolerance = Duration ("PT0.1S");
+    Boolean timingComplete=false;
+    Boolean obstacleAhead=false;
+    Boolean headRecoveryRequired=false;
+
+    StartMoving:{
+        MoveForward(30);     
+    }
+    
+    Colission:{
+        Start Lookup(CenterSonarMeasuredDistance)<200;
+        Repeat true;
+        obstacleAhead=true;
+    }
+    
+    FrontalObstacleManouver:{
+        Start obstacleAhead;
+        Sequence{
+            TurnFrontWheels(30);
+            Wait (delay1), tolerance;            
+            TurnFrontWheels(0);
+            Wait (delay1), tolerance;                        
+            headRecoveryRequired=true;
+            
+        }
+    }
+    
+    TimedDosage:{
+        Start headRecoveryRequired;
+        Repeat true;
+        Wait (dsdelay), tolerance; 
+        OpenSprinkler();
+        
+    }
+    
+    HeadingLeftFix:{
+        Start headRecoveryRequired && Lookup(Heading)<90  && Lookup(Heading)>=0;
+        Repeat true;
+        TurnFrontWheels(-15);
+        Wait (headFixDelay), tolerance;
+        TurnFrontWheels(0);
+    }
+
+    HeadingRightFix:{
+        Start headRecoveryRequired &&  Lookup(Heading)>90 && Lookup(Heading)<180;
+        Repeat true;
+        TurnFrontWheels(15);
+        Wait (headFixDelay), tolerance;
+        TurnFrontWheels(0);
+    }
+  }
+}
