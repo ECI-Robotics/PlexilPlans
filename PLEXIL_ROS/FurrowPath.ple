@@ -11,10 +11,11 @@
 //                     |
 //                     |
 //                     |
-//                     |
-//                     |
+//   ˆ                 |
+//   *sp               |
 // (XINI,YINI)         | 180 deg
 //                     +
+// *sp (Robot Required Starting Point)
 
 
 Command SendAngularVelocityRequest(Integer); 
@@ -40,9 +41,11 @@ FurrowPathPlan:{
 
 
     Sequence{
-      Repeat //repeat the navigation pattern until...
+    
+      //repeat the navigation pattern until no more horizontal space at the right is available
+      Repeat 
 
-      DownUpPath:{
+      BottomTopPath:{
 
         End PathEnd;
 
@@ -76,7 +79,7 @@ FurrowPathPlan:{
 
       }
 
-      DownUpPath:{
+      TopBottomPath:{
 
         End PathEnd;
 
