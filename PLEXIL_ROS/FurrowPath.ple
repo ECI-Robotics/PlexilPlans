@@ -102,9 +102,13 @@ FurrowPathPlan:{
 
         Boolean pathEnd=false;
 
-        SendLinearVelocityRequest(LSPEED);
-
         Concurrence{
+        
+          GainSpeed:{
+            Repeat Lookup(Speed) < LSPEED;
+            SendLinearVelocityRequest(LSPEED);            
+          }
+        
           RLManouver:{
             Start Lookup(Heading) < (180-PATHFIX_DELTA);
             Repeat true;          
