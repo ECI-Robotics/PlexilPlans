@@ -28,6 +28,10 @@ FurrowPathPlan:{
   Integer WIDTH;
   Integer HEIGHT;
   PATHFIX_DELTA=5;
+  
+  //approximate vertical/horizontal space required to perform a U turn
+  UTURNHEIGHT=10;
+  UTURNWIDTH=10;  
 
   Sequence{
 
@@ -43,7 +47,7 @@ FurrowPathPlan:{
     Sequence{
     
       //repeat the navigation pattern until no more horizontal space at the right is available
-      Repeat 
+      Repeat Lookup(XCoordinate) < XINI+(2*WIDTH);
 
       BottomTopPath:{
 
@@ -56,12 +60,15 @@ FurrowPathPlan:{
         Concurrence{
           RLManouver:{
             Start Lookup(Heading) < (0-PATHFIX_DELTA);
+            Repeat true;
             
-            //request angular velocity 
+            //request angular velocity until 
+            SendAngularVelocityRequest(SPEED);
 
           }    
           LRManouver:{
             Start Lookup(Heading) > 0+PATHFIX_DELTA;
+            Repeat true;
             
             //request angular velocity 
 
