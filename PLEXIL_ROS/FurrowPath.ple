@@ -1,0 +1,119 @@
+//                     +
+//                     |
+//                     ^ 0 deg     (XINI+WIDTH,YINI+HEIGHT)
+//                     |
+//                     |
+//                     |
+//                     |
+//                     |
+//270 dg+-------------------------------+   90 deg
+//                     |
+//                     |
+//                     |
+//                     |
+//                     |
+//                     |
+// (XINI,YINI)         | 180 deg
+//                     +
+
+
+Command SendAngularVelocityRequest(Integer); 
+Command SendLinearVelocityRequest(Integer); 
+
+FurrowPathPlan:{
+  
+  Integer xini;    
+  Integer yini;
+  Integer WIDTH;
+  Integer HEIGHT;
+  PATHFIX_DELTA=5;
+
+  Sequence{
+
+
+    Setup:{
+      WIDTH=Lookup(FieldWidth);
+      HEIGHT=Lookup(FieldHeight);
+      xini=Lookup(XCoordinate);  
+      yini=Lookup(YCoordinate);
+    }
+
+
+    Sequence{
+      Repeat //repeat the navigation pattern until...
+
+      DownUpPath:{
+
+        End PathEnd;
+
+        Boolean pathEnd=false;
+
+        SendAngularVelocityRequest(SPEED);
+
+        Concurrence{
+          RLManouver:{
+            Start Lookup(Heading) < (0-PATHFIX_DELTA);
+            
+            //request angular velocity 
+
+          }    
+          LRManouver:{
+            Start Lookup(Heading) > 0+PATHFIX_DELTA;
+            
+            //request angular velocity 
+
+          }       
+          PathEnd:{
+            Start Lookup(YCoordinate)>= FIELD_HEIGHT-UTURNHEIGHT;
+            PathEnd=true;
+          }
+        }
+
+      }
+
+      LRUTurn:{
+        //request angular velocity until Lookup(Heading) aprox eq. to 180
+
+      }
+
+      DownUpPath:{
+
+        End PathEnd;
+
+        Boolean pathEnd=false;
+
+        SendAngularVelocityRequest(SPEED);
+
+        Concurrence{
+          RLManouver:{
+            Start Lookup(Heading) < (180-PATHFIX_DELTA);
+            
+            //request angular velocity 
+
+          }    
+          LRManouver:{
+            Start Lookup(Heading) > 180+PATHFIX_DELTA;
+            
+            //request angular velocity 
+
+          }       
+          PathEnd:{
+            Start Lookup(YCoordinate) <= UTURNHEIGHT;
+            PathEnd=true;
+          }
+        }
+
+      }
+
+      RLUTurn:{
+        //request angular velocity until Lookup(Heading) aprox eq. to 0
+
+      }
+
+    }
+  }
+
+}
+
+
+
