@@ -48,10 +48,7 @@ PurePursuit:{
 	Real lookAheadTargetCoordY;
 
 	Real originTargetVectorsCrossProduct;
-
-	//distance to the look-ahead goal in trajectory
-	//Real distanceToCurrentGoal;
-
+	
 	Real distanceToCurrentWayPoint;
 
 	Boolean goal=false;
