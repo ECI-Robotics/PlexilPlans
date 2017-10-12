@@ -195,12 +195,6 @@ PurePursuit:{
 			pprint("right");
 		}
 
-		GoalReached:{
-			Start distanceToGoal < 1;			
-			goal=true;
-			pprint("Stopping");
-		
-		}
 
 
 	}
