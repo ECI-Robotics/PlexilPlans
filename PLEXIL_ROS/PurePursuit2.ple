@@ -18,7 +18,7 @@ Real Command sin(Real rad);
 Real Command cos(Real rad);
 
 
-All:{
+PurePursuit:{
 
 	Real AXIS_DISPLACEMENT_DELTA=0.01;
 	Real LOOK_AHEAD_DISTANCE=0.5;
@@ -28,9 +28,12 @@ All:{
 	Real yaw;
 	Real top_speed=0.5;
 
+	//WayPoints (to be identified by a deliberative layer)
 	Integer WAY_POINTS_COUNT=4;
 	Real wayPointsXCoord[4] = #(-4 4 4 -4);
 	Real wayPointsYCoord[4] = #(4 4 -4 -4);
+
+
 
 	Integer wayPointIndex;
 
@@ -192,12 +195,12 @@ All:{
 			pprint("right");
 		}
 
-		//GoalReached:{
-		//	Start distanceToGoal < 1;			
-		//	goal=true;
-		//	pprint("Stopping");
-		//
-		//}
+		GoalReached:{
+			Start distanceToGoal < 1;			
+			goal=true;
+			pprint("Stopping");
+		
+		}
 
 
 	}
