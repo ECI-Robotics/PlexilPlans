@@ -1,0 +1,206 @@
+//Env variables
+//---------------
+//Yaw
+//XPosition
+//YPosition
+//LinearVelocity
+//AngularVelocity
+//Ready
+//SafetyWarning
+
+//Commands
+
+Command RequestLinearVelocity(Real);
+Command RequestAngularVelocity(Real); 
+Command pprint(...);
+Real Command distance(Real x1,Real y1,Real x2,Real y2);
+Real Command sin(Real rad);
+Real Command cos(Real rad);
+
+
+All:{
+
+	Real AXIS_DISPLACEMENT_DELTA=0.01;
+	Real LOOK_AHEAD_DISTANCE=0.5;
+	Real WAYPOINT_MIN_DISTANCE=0.3;
+	Real sim_xp;
+	Real sim_yp;
+	Real yaw;
+	Real top_speed=0.5;
+
+	Integer WAY_POINTS_COUNT=4;
+	Real wayPointsXCoord[4] = #(-4 4 4 -4);
+	Real wayPointsYCoord[4] = #(4 4 -4 -4);
+
+	Integer wayPointIndex;
+
+	Real currentWayPointCoordX;
+	Real currentWayPointCoordY;
+
+	Real previousWayPointCoordX;
+	Real previousWayPointCoordY;
+
+
+	Real lookAheadTargetCoordX;
+	Real lookAheadTargetCoordY;
+
+	Real originTargetVectorsCrossProduct;
+
+	//distance to the look-ahead goal in trajectory
+	//Real distanceToCurrentGoal;
+
+	Real distanceToCurrentWayPoint;
+
+	Boolean goal=false;
+
+
+	InitialContext:{
+		sim_xp=Lookup(XPosition);
+		sim_yp=Lookup(YPosition);
+
+		wayPointIndex=0;
+
+		previousWayPointCoordX=sim_xp;
+		previousWayPointCoordY=sim_yp;
+
+		currentWayPointCoordX=wayPointsXCoord[0];
+		currentWayPointCoordY=wayPointsYCoord[0];
+
+		distanceToCurrentWayPoint = distance(sim_xp,sim_yp,currentWayPointCoordX,currentWayPointCoordY);
+
+		pprint("xini:",sim_xp);
+		pprint("yini:",sim_yp);
+	}
+
+	Concurrence{
+
+
+		Accelerate:{			
+			Repeat !goal && Lookup(LinearVelocity) < top_speed;
+			RequestLinearVelocity(0.1);
+		}
+
+		Stop:{
+			Start goal;
+			Repeat Lookup(LinearVelocity) > 0;
+			RequestLinearVelocity(0);	
+		}
+
+		UpdateLookAheadAndWayPoint:{
+
+			Start abs(Lookup(XPosition)-sim_xp)>AXIS_DISPLACEMENT_DELTA || abs(Lookup(YPosition)-sim_yp)>AXIS_DISPLACEMENT_DELTA;
+			Repeat !goal;
+
+			Sequence{
+
+				PositionUpdate:{
+
+					sim_xp=Lookup(XPosition);
+					sim_yp=Lookup(YPosition);
+					yaw=Lookup(Yaw);
+					
+					pprint("x:",sim_xp);
+					pprint("y:",sim_yp);
+					//pprint("yaw:",yaw);
+
+				}	
+
+				LookAheadUpdate:{
+
+					Real wayPointsDistance=0;
+					Real wayPointRatio=0;
+
+					wayPointsDistance = distance(currentWayPointCoordX,currentWayPointCoordY,previousWayPointCoordX,previousWayPointCoordY);
+					distanceToCurrentWayPoint = distance(sim_xp,sim_yp,currentWayPointCoordX,currentWayPointCoordY);
+
+					wayPointRatio = (wayPointsDistance - distanceToCurrentWayPoint + LOOK_AHEAD_DISTANCE) / wayPointsDistance;
+
+					if wayPointRatio > 1.0
+						wayPointRatio = 1.0;			  
+					endif
+
+					lookAheadTargetCoordX = previousWayPointCoordX + wayPointRatio*(currentWayPointCoordX-previousWayPointCoordX);
+					lookAheadTargetCoordY = previousWayPointCoordY + wayPointRatio*(currentWayPointCoordY-previousWayPointCoordY);
+
+				}
+
+				HeadingEvaluation:{	
+
+					Real cdir,sdir,distanceToCurrentGoal;
+
+					distanceToCurrentGoal = distance(sim_xp,sim_yp, lookAheadTargetCoordX,lookAheadTargetCoordY);
+
+					cdir=cos(yaw);
+					sdir=sin(yaw);
+
+					originTargetVectorsCrossProduct = (sdir*(sim_xp-lookAheadTargetCoordX) - cdir*(sim_yp-lookAheadTargetCoordY))/distanceToCurrentGoal;
+
+					pprint("goal dist:",distanceToCurrentGoal);
+				}
+
+
+				WayPointUpdate:{
+
+					distanceToCurrentWayPoint = distance(sim_xp,sim_yp, currentWayPointCoordX,currentWayPointCoordY);
+					
+
+					if distanceToCurrentWayPoint < WAYPOINT_MIN_DISTANCE
+					{
+
+						pprint("UPDATING WAYPOINT");
+						wayPointIndex=wayPointIndex+1;
+
+						if (wayPointIndex < WAY_POINTS_COUNT)
+						{
+							previousWayPointCoordX = currentWayPointCoordX;
+							previousWayPointCoordY = currentWayPointCoordY;
+
+							currentWayPointCoordX = wayPointsXCoord[wayPointIndex];
+							currentWayPointCoordY = wayPointsYCoord[wayPointIndex];					
+						}
+						else
+						{
+							//last waypoint was reached
+							goal=true;
+						}
+						endif
+						
+					}
+					endif
+
+				}
+
+
+
+			}
+
+
+		}
+
+
+		TurnLeft:{
+			Start  originTargetVectorsCrossProduct  <  -0.1;
+			Repeat !goal;
+			RequestAngularVelocity(-1);
+			pprint("left");
+		}
+
+		TurnRight:{
+			Start originTargetVectorsCrossProduct  >  0.1;
+			Repeat !goal;		
+			RequestAngularVelocity(1);
+			pprint("right");
+		}
+
+		//GoalReached:{
+		//	Start distanceToGoal < 1;			
+		//	goal=true;
+		//	pprint("Stopping");
+		//
+		//}
+
+
+	}
+
+}
+
